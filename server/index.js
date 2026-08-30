@@ -25,8 +25,8 @@ const razorpay = new Razorpay({
 });
 
 // Setup Email Transporter (Ethereal for testing)
-let transporter;
-nodemailer.createTestAccount((err, account) => {
+let transporter = null; // Disabled due to Render SMTP port blocking
+// nodemailer.createTestAccount((err, account) => {
   if (err) {
     console.warn('⚠️ Ethereal test account creation failed (Ethereal API might be down). OTPs will be printed to console only. Error: ' + err.message);
     return;
