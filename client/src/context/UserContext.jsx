@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const UserContext = createContext();
 
 export const useUser = () => useContext(UserContext);
@@ -45,7 +46,7 @@ export const UserProvider = ({ children }) => {
       appliedTheme = getAutoTheme();
       userData.theme = appliedTheme;
       // Fire and forget update-theme to backend
-      fetch('http://localhost:3001/api/update-theme', {
+      fetch(`${API_URL}/api/update-theme`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: userData.id, theme: appliedTheme })
@@ -58,7 +59,7 @@ export const UserProvider = ({ children }) => {
 
   const login = async (email, city, state, device, plan) => {
     try {
-      const response = await fetch('http://localhost:3001/api/login', {
+      const response = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, city, state, device, plan })
@@ -82,7 +83,7 @@ export const UserProvider = ({ children }) => {
 
   const verifyOtp = async (userId, otp) => {
     try {
-      const response = await fetch('http://localhost:3001/api/verify-otp', {
+      const response = await fetch(`${API_URL}/api/verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, otp })
@@ -102,7 +103,7 @@ export const UserProvider = ({ children }) => {
   const updateTheme = async (theme) => {
     if (!user) return;
     try {
-      const response = await fetch('http://localhost:3001/api/update-theme', {
+      const response = await fetch(`${API_URL}/api/update-theme`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, theme })
@@ -130,7 +131,7 @@ export const UserProvider = ({ children }) => {
       
       // Bypass Razorpay for 'free' tier or if using dummy local testing keys
       if (newPlan === 'free' || razorpayKey.includes('YOUR_KEY_HERE') || razorpayKey === 'rzp_test_dummy') {
-        const response = await fetch('http://localhost:3001/api/update-plan', {
+        const response = await fetch(`${API_URL}/api/update-plan`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId: user.id, newPlan })
@@ -151,7 +152,7 @@ export const UserProvider = ({ children }) => {
       }
 
       // 1. Create order
-      const orderRes = await fetch('http://localhost:3001/api/init-upgrade', {
+      const orderRes = await fetch(`${API_URL}/api/init-upgrade`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ planId: newPlan })
@@ -174,7 +175,7 @@ export const UserProvider = ({ children }) => {
           handler: async (response) => {
             try {
               // 3. Verify Payment
-              const verifyRes = await fetch('http://localhost:3001/api/confirm-upgrade', {
+              const verifyRes = await fetch(`${API_URL}/api/confirm-upgrade`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -219,7 +220,7 @@ export const UserProvider = ({ children }) => {
   const updateChannel = async (channelData) => {
     if (!user) return { success: false, error: 'Not logged in' };
     try {
-      const response = await fetch('http://localhost:3001/api/channel/update', {
+      const response = await fetch(`${API_URL}/api/channel/update`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, ...channelData })
