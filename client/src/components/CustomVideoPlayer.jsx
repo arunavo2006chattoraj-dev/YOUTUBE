@@ -156,9 +156,17 @@ const CustomVideoPlayer = forwardRef(({ src, poster, onNextVideo, onPlayAction, 
   const toggleFullscreen = (e) => {
     if (e) e.stopPropagation();
     if (!document.fullscreenElement) {
-      containerRef.current.requestFullscreen().catch(err => console.log(err));
+      containerRef.current.requestFullscreen().then(() => {
+        if (window.screen && window.screen.orientation && window.screen.orientation.lock) {
+          window.screen.orientation.lock('landscape').catch(err => console.log('Orientation lock failed:', err));
+        }
+      }).catch(err => console.log(err));
     } else {
-      document.exitFullscreen().catch(err => console.log(err));
+      document.exitFullscreen().then(() => {
+        if (window.screen && window.screen.orientation && window.screen.orientation.unlock) {
+          window.screen.orientation.unlock();
+        }
+      }).catch(err => console.log(err));
     }
   };
 
