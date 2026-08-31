@@ -77,6 +77,23 @@ export default function SearchResults() {
 
   return (
     <div className="search-page-container">
+      {/* Mobile-only Search Bar */}
+      <div className="mobile-search-page-input">
+        <input 
+          type="text" 
+          placeholder="Search YouTube..." 
+          value={query}
+          onChange={(e) => {
+            if (e.target.value) {
+              setSearchParams({ q: e.target.value });
+            } else {
+              setSearchParams({});
+            }
+          }}
+          autoFocus
+        />
+      </div>
+
       {/* Search Query Header & Filters */}
       <div style={{ marginBottom: '20px' }}>
         <h2 style={{ fontSize: '1.4rem', fontWeight: '600', color: 'var(--text-main)', marginBottom: '16px' }}>
