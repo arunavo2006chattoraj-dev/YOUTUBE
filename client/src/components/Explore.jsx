@@ -11,7 +11,7 @@ const Explore = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+    const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
     const fetchVideos = async () => {
       try {
         const res = await fetch(`${API_URL}/api/videos`);

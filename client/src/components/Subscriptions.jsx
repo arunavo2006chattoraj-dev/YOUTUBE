@@ -39,7 +39,7 @@ const Subscriptions = () => {
   const [hoveredVideoId, setHoveredVideoId] = useState(null);
   const hoverTimeoutRef = useRef(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
 
   const fetchSubscriptionsData = async () => {
     if (!user) {

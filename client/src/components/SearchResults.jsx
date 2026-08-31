@@ -19,7 +19,7 @@ export default function SearchResults() {
   const fetchResults = async () => {
     setLoading(true);
     try {
-      const url = `http://localhost:3001/api/search?q=${encodeURIComponent(query)}&type=${type}&sort=${sort}`;
+      const url = `https://youtube-uz4d.onrender.com/api/search?q=${encodeURIComponent(query)}&type=${type}&sort=${sort}`;
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
@@ -38,7 +38,7 @@ export default function SearchResults() {
 
   // Real-time listener for subscriber changes
   useEffect(() => {
-    const socket = io('http://localhost:3001');
+    const socket = io('https://youtube-uz4d.onrender.com');
 
     socket.on('subscriber-updated', (data) => {
       setResults(prev => ({

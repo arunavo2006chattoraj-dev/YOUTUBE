@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
 const UserContext = createContext();
 
 export const useUser = () => useContext(UserContext);
@@ -247,7 +247,7 @@ export const UserProvider = ({ children }) => {
   const toggleSubscribe = async (channelName) => {
     if (!user) return { success: false, error: 'Please log in to subscribe.' };
     try {
-      const response = await fetch(`http://localhost:3001/api/channel/${encodeURIComponent(channelName)}/subscribe`, {
+      const response = await fetch(`https://youtube-uz4d.onrender.com/api/channel/${encodeURIComponent(channelName)}/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id })
@@ -274,7 +274,7 @@ export const UserProvider = ({ children }) => {
   const refreshUser = async () => {
     if (!user) return;
     try {
-      const res = await fetch(`http://localhost:3001/api/profile/${user.id}`);
+      const res = await fetch(`https://youtube-uz4d.onrender.com/api/profile/${user.id}`);
       if (res.ok) {
         const data = await res.json();
         const updated = { ...user, ...data };

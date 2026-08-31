@@ -16,7 +16,7 @@ const PlaylistModal = ({ isOpen, onClose, videoId }) => {
 
   const fetchPlaylists = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/users/${user.id}/playlists`);
+      const res = await fetch(`https://youtube-uz4d.onrender.com/api/users/${user.id}/playlists`);
       if (res.ok) {
         const data = await res.json();
         setPlaylists(data);
@@ -30,7 +30,7 @@ const PlaylistModal = ({ isOpen, onClose, videoId }) => {
     if (!newPlaylistName.trim()) return;
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3001/api/playlists', {
+      const res = await fetch('https://youtube-uz4d.onrender.com/api/playlists', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, title: newPlaylistName })
@@ -53,7 +53,7 @@ const PlaylistModal = ({ isOpen, onClose, videoId }) => {
 
   const handleAddVideoToPlaylist = async (playlistId) => {
     try {
-      const res = await fetch(`http://localhost:3001/api/playlists/${playlistId}/videos`, {
+      const res = await fetch(`https://youtube-uz4d.onrender.com/api/playlists/${playlistId}/videos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ videoId })

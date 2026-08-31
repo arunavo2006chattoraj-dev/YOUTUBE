@@ -9,7 +9,7 @@ export default function Community() {
   useEffect(() => {
     const fetchAllPosts = async () => {
       try {
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+        const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
         const res = await fetch(`${API_URL}/api/posts/all`);
         if (res.ok) {
           const data = await res.json();

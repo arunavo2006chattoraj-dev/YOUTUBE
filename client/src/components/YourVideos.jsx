@@ -38,7 +38,7 @@ const YourVideos = () => {
   const fetchChannelData = async () => {
     if (!user) return;
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
       
       // 1. Fetch channel videos
       const resVideos = await fetch(`${API_URL}/api/videos/user/${encodeURIComponent(user.name || user.username)}`);
@@ -76,7 +76,7 @@ const YourVideos = () => {
     if (!newPostContent.trim()) return;
     setPosting(true);
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
       const res = await fetch(`${API_URL}/api/posts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -109,7 +109,7 @@ const YourVideos = () => {
   // Real-time live Socket.IO listener for subscribers and views
   useEffect(() => {
     if (!user) return;
-    const socket = io('http://localhost:3001');
+    const socket = io('https://youtube-uz4d.onrender.com');
 
     socket.on('subscriber-updated', (data) => {
       const channelIdentifier = user.name || user.username;
@@ -161,7 +161,7 @@ const YourVideos = () => {
 
     setSubmitting(true);
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
       
       let finalVideoUrl = formData.url;
       if (videoFile) {

@@ -21,7 +21,7 @@ const Profile = () => {
   useEffect(() => {
     if (user) {
       setLoading(true);
-      fetch(`http://localhost:3001/api/profile/${user.id}`)
+      fetch(`https://youtube-uz4d.onrender.com/api/profile/${user.id}`)
         .then(res => res.json())
         .then(data => {
           setProfileData(data);

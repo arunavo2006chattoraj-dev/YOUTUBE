@@ -27,7 +27,7 @@ export default function Channel() {
 
   const fetchChannel = async () => {
     try {
-      const url = `http://localhost:3001/api/channel/${encodeURIComponent(channelName)}${user ? `?userId=${user.id}` : ''}`;
+      const url = `https://youtube-uz4d.onrender.com/api/channel/${encodeURIComponent(channelName)}${user ? `?userId=${user.id}` : ''}`;
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
@@ -42,7 +42,7 @@ export default function Channel() {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/channel/${encodeURIComponent(channelName)}/posts`);
+      const res = await fetch(`https://youtube-uz4d.onrender.com/api/channel/${encodeURIComponent(channelName)}/posts`);
       if (res.ok) {
         const data = await res.json();
         setPosts(data);
@@ -61,7 +61,7 @@ export default function Channel() {
     if (!newPostContent.trim()) return;
     setPosting(true);
     try {
-      const res = await fetch('http://localhost:3001/api/posts', {
+      const res = await fetch('https://youtube-uz4d.onrender.com/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -84,7 +84,7 @@ export default function Channel() {
 
   // Connect to Socket.io for Real-Time Live Subscriber & Profile Updates
   useEffect(() => {
-    const socket = io('http://localhost:3001');
+    const socket = io('https://youtube-uz4d.onrender.com');
 
     socket.on('subscriber-updated', (data) => {
       if (

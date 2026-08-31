@@ -81,7 +81,7 @@ const FeaturedSection = ({ standalone = false }) => {
   const [hoveredVideoId, setHoveredVideoId] = useState(null);
   const hoverTimeoutRef = useRef(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
 
   // Helper to format views
   const formatViews = (num) => {

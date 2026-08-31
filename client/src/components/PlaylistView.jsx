@@ -11,7 +11,7 @@ const PlaylistView = () => {
   useEffect(() => {
     const fetchPlaylist = async () => {
       try {
-        const res = await fetch(`http://localhost:3001/api/playlists/${id}`);
+        const res = await fetch(`https://youtube-uz4d.onrender.com/api/playlists/${id}`);
         if (res.ok) {
           const data = await res.json();
           setPlaylist(data);

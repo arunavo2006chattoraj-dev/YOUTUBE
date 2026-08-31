@@ -47,7 +47,7 @@ const Room = ({ roomId, userName, onLeave, videoId }) => {
 
   useEffect(() => {
     if (videoId) {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
       fetch(`${API_URL}/api/videos/${videoId}`)
         .then(res => res.json())
         .then(data => setVideo(data))

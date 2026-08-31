@@ -13,7 +13,7 @@ const Library = () => {
     const fetchData = async () => {
       try {
         // Fetch all videos
-        const vidRes = await fetch('http://localhost:3001/api/videos');
+        const vidRes = await fetch('https://youtube-uz4d.onrender.com/api/videos');
         if (vidRes.ok) {
           const vidData = await vidRes.json();
           setVideos(vidData);
@@ -21,7 +21,7 @@ const Library = () => {
 
         // Fetch user playlists if logged in
         if (user) {
-          const plRes = await fetch(`http://localhost:3001/api/users/${user.id}/playlists`);
+          const plRes = await fetch(`https://youtube-uz4d.onrender.com/api/users/${user.id}/playlists`);
           if (plRes.ok) {
             const plData = await plRes.json();
             setPlaylists(plData);
@@ -41,7 +41,7 @@ const Library = () => {
     if (!user) return alert('Please log in from the Profile page to download videos.');
     
     try {
-      const res = await fetch('http://localhost:3001/api/download', {
+      const res = await fetch('https://youtube-uz4d.onrender.com/api/download', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, videoId })

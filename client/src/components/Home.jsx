@@ -22,7 +22,7 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+    const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
     
     const fetchVideos = async () => {
       try {

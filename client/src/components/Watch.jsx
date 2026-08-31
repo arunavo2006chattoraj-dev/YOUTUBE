@@ -43,7 +43,7 @@ const Watch = () => {
   useEffect(() => {
     const fetchVideoAndRecordView = async () => {
       try {
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+        const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
         
         // 1. Fetch video
         const res = await fetch(`${API_URL}/api/videos/${id}`);
@@ -85,7 +85,7 @@ const Watch = () => {
 
   // Real-Time Socket.IO listeners
   useEffect(() => {
-    const socket = io('http://localhost:3001');
+    const socket = io('https://youtube-uz4d.onrender.com');
 
     socket.on('subscriber-updated', (data) => {
       if (video && (data.channelName?.toLowerCase() === video.channel?.toLowerCase())) {
@@ -129,7 +129,7 @@ const Watch = () => {
     
     setDownloading(true);
     try {
-      const response = await fetch('http://localhost:3001/api/download', {
+      const response = await fetch('https://youtube-uz4d.onrender.com/api/download', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -168,7 +168,7 @@ const Watch = () => {
 
     setReporting(true);
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
       const res = await fetch(`${API_URL}/api/reports`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

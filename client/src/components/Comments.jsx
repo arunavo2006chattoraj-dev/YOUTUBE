@@ -14,7 +14,7 @@ const Comments = ({ videoId }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+        const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
         const res = await fetch(`${API_URL}/api/comments/${videoId}`);
         if (res.ok) {
           const data = await res.json();
@@ -37,7 +37,7 @@ const Comments = ({ videoId }) => {
     if (!newComment.trim()) return;
     
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
       const res = await fetch(`${API_URL}/api/comments/${videoId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -69,7 +69,7 @@ const Comments = ({ videoId }) => {
         payload.userId = user.id;
       }
       
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
       const res = await fetch(`${API_URL}/api/comments/${videoId}/${commentId}/interact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -86,7 +86,7 @@ const Comments = ({ videoId }) => {
 
   const handleTranslate = async (commentId, text) => {
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://youtube-uz4d.onrender.com';
       const res = await fetch(`${API_URL}/api/translate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
