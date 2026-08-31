@@ -75,7 +75,7 @@ const Navbar = ({ toggleSidebar, isWatchPage }) => {
       </div>
 
       {/* Search Bar & Auto-Suggestions */}
-      <div style={styles.centerSection} ref={searchRef}>
+      <div style={styles.centerSection} ref={searchRef} className="yt-nav-center">
         <form onSubmit={handleSearchSubmit} style={{ display: 'flex', width: '100%', position: 'relative' }}>
           <div style={styles.searchContainer}>
             <input 
@@ -127,7 +127,10 @@ const Navbar = ({ toggleSidebar, isWatchPage }) => {
         </button>
       </div>
 
-      <div style={styles.rightSection}>
+      <div style={styles.rightSection} className="yt-nav-right">
+        <button className="btn-icon mobile-search-btn" onClick={() => navigate('/search')} title="Search">
+          <FiSearch size={20} />
+        </button>
         <button className="btn-icon" style={styles.actionButton} onClick={toggleTheme} title="Toggle Theme">
           {theme === 'dark' ? <FiSun size={20} /> : <FiMoon size={20} />}
         </button>
@@ -135,7 +138,7 @@ const Navbar = ({ toggleSidebar, isWatchPage }) => {
         {user ? (
           <>
             <button 
-              className="btn-icon" 
+              className="btn-icon desktop-only-btn" 
               style={styles.actionButton} 
               onClick={() => navigate('/your-videos')}
               title="Creator Studio & Upload"

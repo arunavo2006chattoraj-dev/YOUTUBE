@@ -849,7 +849,42 @@ body {
   object-fit: cover;
 }
 
+.mobile-search-btn {
+  display: none !important;
+}
+
 @media (max-width: 768px) {
+  .yt-nav-center {
+    display: none !important;
+  }
+  .desktop-only-btn {
+    display: none !important;
+  }
+  .mobile-search-btn {
+    display: flex !important;
+  }
+  
+  /* Make videos full width on mobile */
+  .yt-video-grid {
+    padding: 0;
+    gap: 0;
+    grid-template-columns: 1fr;
+  }
+  .video-card {
+    border-radius: 0;
+    margin-bottom: 24px;
+    background: transparent;
+  }
+  .video-thumbnail-container {
+    border-radius: 0;
+  }
+  .video-thumbnail {
+    border-radius: 0;
+  }
+  .video-info {
+    padding: 12px;
+  }
+
   .yt-sidebar {
     position: absolute;
     height: calc(100vh - 60px); /* Adjust based on navbar height */
