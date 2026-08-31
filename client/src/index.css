@@ -862,6 +862,20 @@ body {
   }
   .mobile-search-btn {
     display: flex !important;
+    background: transparent !important;
+    border: none !important;
+    backdrop-filter: none !important;
+  }
+  
+  .logo-text {
+    display: none !important;
+  }
+
+  .mobile-sign-in-btn {
+    padding: 6px 10px !important;
+  }
+  .sign-in-text {
+    display: none !important;
   }
   
   /* Make videos full width on mobile */

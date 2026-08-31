@@ -70,7 +70,7 @@ const Navbar = ({ toggleSidebar, isWatchPage }) => {
         )}
         <Link to="/" style={styles.logoLink}>
           <FaYoutube size={28} color="#FF0000" />
-          <span style={styles.logoText}>YouTube</span>
+          <span style={styles.logoText} className="logo-text">YouTube</span>
         </Link>
       </div>
 
@@ -254,8 +254,8 @@ const Navbar = ({ toggleSidebar, isWatchPage }) => {
             </div>
           </>
         ) : (
-          <Link to="/profile" className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: '18px' }}>
-            <FiUser /> Sign in
+          <Link to="/profile" className="btn btn-primary mobile-sign-in-btn" style={{ padding: '8px 16px', borderRadius: '18px' }}>
+            <FiUser /> <span className="sign-in-text">Sign in</span>
           </Link>
         )}
       </div>
