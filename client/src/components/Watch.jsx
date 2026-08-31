@@ -211,9 +211,9 @@ const Watch = () => {
   if (!video) return null;
 
   return (
-    <div style={styles.container}>
-      <div style={styles.mainContent}>
-        <div style={styles.playerContainer}>
+    <div className="watch-page-container" style={styles.container}>
+      <div className="watch-page-main" style={styles.mainContent}>
+        <div className="watch-player-wrapper" style={styles.playerContainer}>
           <CustomVideoPlayer 
             src={video.url} 
             poster={video.thumbnail}
@@ -381,7 +381,7 @@ const Watch = () => {
       )}
       
       {/* Related Videos Sidebar */}
-      <div style={styles.sidebar}>
+      <div className="watch-page-sidebar" style={styles.sidebar}>
         <h3 style={styles.relatedTitle}>Up Next</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {relatedVideos.map((rVid) => (
