@@ -850,6 +850,19 @@ body {
 }
 
 @media (max-width: 768px) {
+  .yt-sidebar {
+    position: absolute;
+    height: calc(100vh - 60px); /* Adjust based on navbar height */
+    z-index: 1000;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.5);
+  }
+  .yt-sidebar.collapsed {
+    transform: translateX(-100%);
+    width: 0;
+    overflow: hidden;
+    padding: 0;
+    border: none;
+  }
   .video-search-result-card {
     flex-direction: column;
   }

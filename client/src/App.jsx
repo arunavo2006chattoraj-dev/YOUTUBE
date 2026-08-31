@@ -96,7 +96,7 @@ const WatchPartyPage = () => {
 };
 
 function App() {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(window.innerWidth <= 768);
   const location = useLocation();
 
   const toggleSidebar = () => {
