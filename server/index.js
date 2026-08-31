@@ -24,8 +24,37 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET || 'dummy_secret',
 });
 
-// Setup Email Transporter (Ethereal for testing)
-let transporter = null; // Disabled due to Render SMTP port blocking
+// Setup Email Client (Brevo API)
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
+if (!BREVO_API_KEY) {
+  console.log("No BREVO_API_KEY provided in .env, email sending is disabled.");
+}
+
+async function sendBrevoEmail(to, subject, htmlContent, textContent) {
+  if (!BREVO_API_KEY) return { error: 'No API key' };
+  try {
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'api-key': BREVO_API_KEY,
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        sender: { name: 'My Video Platform', email: process.env.BREVO_SENDER_EMAIL },
+        to: [{ email: to }],
+        subject: subject,
+        htmlContent: htmlContent,
+        textContent: textContent
+      })
+    });
+    const data = await response.json();
+    if (!response.ok) return { error: data };
+    return { data };
+  } catch (err) {
+    return { error: err.message };
+  }
+}
 app.use(cors());
 app.use(express.json());
 
@@ -118,18 +147,18 @@ app.post('/api/login', async (req, res) => {
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
       pendingOtps[user.id] = { otp, deviceString };
       
-      // Send OTP via email
-      if (transporter) {
-         try {
-           const info = await transporter.sendMail({
-             from: '"My Video Platform" <noreply@myvideoplatform.com>',
-             to: user.email,
-             subject: 'Your Login OTP',
-             text: `Your OTP for login from new location/device (${city}, ${state}, ${device}) is: ${otp}`
-           });
-           console.log('OTP Email preview URL: %s', nodemailer.getTestMessageUrl(info));
-         } catch (err) {
-           console.error('Error sending OTP email:', err);
+      if (BREVO_API_KEY) {
+         const { data, error } = await sendBrevoEmail(
+           user.email,
+           'Your Login OTP',
+           null, // no HTML content
+           `Your OTP for login from new location/device (${city}, ${state}, ${device}) is: ${otp}`
+         );
+         
+         if (error) {
+           console.error('Error sending OTP email with Brevo:', error);
+         } else {
+           console.log('OTP Email sent with Brevo messageId:', data?.messageId);
          }
       } else {
          console.log(`[DEV MODE] OTP for ${user.username} is ${otp}`);
@@ -1456,43 +1485,39 @@ app.post('/api/confirm-upgrade', async (req, res) => {
       await user.save();
       
       // Send Email Invoice
-      if (transporter) {
-        const mailOptions = {
-          from: '"My Video Platform" <noreply@myvideoplatform.com>',
-          to: user.email,
-          subject: `Payment Successful - Upgrade to ${planId.toUpperCase()}`,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-              <h2 style="color: #4CAF50; text-align: center;">Payment Successful!</h2>
-              <p>Hi <strong>${user.name}</strong>,</p>
-              <p>Thank you for upgrading your plan. Your account has been successfully upgraded to the <strong>${planId.toUpperCase()}</strong> plan.</p>
-              <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-              <table style="width: 100%; border-collapse: collapse;">
-                <tr>
-                  <td style="padding: 8px 0; color: #555;">Order ID:</td>
-                  <td style="padding: 8px 0; text-align: right; font-weight: bold;">${razorpay_order_id}</td>
-                </tr>
-                <tr>
-                  <td style="padding: 8px 0; color: #555;">Payment ID:</td>
-                  <td style="padding: 8px 0; text-align: right; font-weight: bold;">${razorpay_payment_id}</td>
-                </tr>
-                <tr>
-                  <td style="padding: 8px 0; color: #555;">Plan:</td>
-                  <td style="padding: 8px 0; text-align: right; font-weight: bold; text-transform: capitalize;">${planId}</td>
-                </tr>
-              </table>
-              <br/>
-              <p style="text-align: center; color: #888; font-size: 12px;">Enjoy unlimited streaming and more features!</p>
-            </div>
-          `
-        };
+      if (BREVO_API_KEY) {
+        const subject = `Payment Successful - Upgrade to ${planId.toUpperCase()}`;
+        const html = `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+            <h2 style="color: #4CAF50; text-align: center;">Payment Successful!</h2>
+            <p>Hi <strong>${user.name}</strong>,</p>
+            <p>Thank you for upgrading your plan. Your account has been successfully upgraded to the <strong>${planId.toUpperCase()}</strong> plan.</p>
+            <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; color: #555;">Order ID:</td>
+                <td style="padding: 8px 0; text-align: right; font-weight: bold;">${razorpay_order_id}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #555;">Payment ID:</td>
+                <td style="padding: 8px 0; text-align: right; font-weight: bold;">${razorpay_payment_id}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #555;">Plan:</td>
+                <td style="padding: 8px 0; text-align: right; font-weight: bold; text-transform: capitalize;">${planId}</td>
+              </tr>
+            </table>
+            <br/>
+            <p style="text-align: center; color: #888; font-size: 12px;">Enjoy unlimited streaming and more features!</p>
+          </div>
+        `;
 
-        try {
-          const info = await transporter.sendMail(mailOptions);
-          console.log('Invoice email sent: %s', info.messageId);
-          console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-        } catch (err) {
-          console.error('Error sending email:', err);
+        const { data, error } = await sendBrevoEmail(user.email, subject, html, null);
+        
+        if (error) {
+          console.error('Error sending invoice email with Brevo:', error);
+        } else {
+          console.log('Invoice email sent with Brevo messageId:', data?.messageId);
         }
       }
 
